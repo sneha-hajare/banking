@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Loans</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .account {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #007bff;
+            color: white;
+        }
+
+        .pending {
+            color: #d97706;
+            font-weight: bold;
+        }
+
+        .approved {
+            color: green;
+            font-weight: bold;
+        }
+
+        .rejected {
+            color: red;
+            font-weight: bold;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .button:hover {
+            background: #0056b3;
+        }
+
+        .back {
+            background: #555;
+            margin-left: 10px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>My Loans</h2>
+
+    <div class="account">
+        Account Number:
+        <strong th:text="${account.accountNumber}"></strong>
+    </div>
+
+    <div th:if="${#lists.isEmpty(loans)}" class="empty">
+        <p>No loan applications found.</p>
+    </div>
+
+    <table th:unless="${#lists.isEmpty(loans)}">
+
+        <thead>
+        <tr>
+            <th>Loan Type</th>
+            <th>Amount</th>
+            <th>Interest Rate</th>
+            <th>Tenure</th>
+            <th>Status</th>
+            <th>Approved Date</th>
+            <th>Due Date</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr th:each="loan : ${loans}">
+
+            <td th:text="${loan.loanType}"></td>
+
+            <td th:text="${loan.amount}"></td>
+
+            <td>
+                <span th:text="${loan.interestRate + '%'}"></span>
+            </td>
+
+            <td>
+                <span th:text="${loan.tenure + ' months'}"></span>
+            </td>
+
+            <td>
+                <span th:if="${loan.status == 'PENDING'}"
+                      class="pending"
+                      th:text="${loan.status}">
+                </span>
+
+                <span th:if="${loan.status == 'APPROVED'}"
+                      class="approved"
+                      th:text="${loan.status}">
+                </span>
+
+                <span th:if="${loan.status == 'REJECTED'}"
+                      class="rejected"
+                      th:text="${loan.status}">
+                </span>
+            </td>
+
+            <td th:text="${loan.approvedDate != null ? loan.approvedDate : '-'}"></td>
+
+            <td th:text="${loan.dueDate != null ? loan.dueDate : '-'}"></td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+    <a th:href="@{/loans/apply(accountId=${account.id})}"
+       class="button">
+        Apply for New Loan
+    </a>
+
+    <a th:href="@{/accounts}"
+       class="button back">
+        Back to Accounts
+    </a>
+
+</div>
+
+</body>
+</html>

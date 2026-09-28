@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BankCore - Create Account</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef2f7;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: #1565c0;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+        }
+
+        .container {
+            width: 450px;
+            margin: 60px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.12);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 25px;
+            border: none;
+            border-radius: 6px;
+            background: #1565c0;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0d47a1;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #1565c0;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>🏦 BankCore</h2>
+    <a href="/dashboard"
+       style="color:white; text-decoration:none;">
+        Dashboard
+    </a>
+</div>
+
+<div class="container">
+
+    <h1>Create Bank Account</h1>
+
+    <p class="subtitle">
+        Select the type of account you want to create
+    </p>
+
+    <form th:action="@{/accounts/create}" method="post">
+
+        <label for="accountType">Account Type</label>
+
+        <select id="accountType"
+                name="accountType"
+                required>
+
+            <option value="">-- Select Account Type --</option>
+            <option value="SAVINGS">Savings Account</option>
+            <option value="CURRENT">Current Account</option>
+
+        </select>
+
+        <button type="submit">
+            Create Account
+        </button>
+
+    </form>
+
+    <a href="/accounts" class="back">
+        ← Back to Accounts
+    </a>
+
+</div>
+
+</body>
+</html>

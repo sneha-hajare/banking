@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Transfer Money</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 450px;
+            margin: 60px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 80px;
+            resize: none;
+        }
+
+        .button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            background: #0056b3;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .error {
+            background: #ffe6e6;
+            color: #cc0000;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Transfer Money</h2>
+
+    <!-- Error message -->
+    <div th:if="${error}" class="error" th:text="${error}">
+        Transfer failed
+    </div>
+
+    <form th:action="@{/transfers/create}" method="post">
+
+        <!-- Source Account -->
+        <input type="hidden"
+               name="fromAccountId"
+               th:value="${account.id}">
+
+        <label>From Account</label>
+        <input type="text"
+               th:value="${account.accountNumber}"
+               readonly>
+
+        <label>Current Balance</label>
+        <input type="text"
+               th:value="${account.balance}"
+               readonly>
+
+        <!-- Destination Account -->
+        <label>To Account Number</label>
+        <input type="text"
+               name="toAccountNumber"
+               placeholder="Enter receiver account number"
+               required>
+
+        <!-- Amount -->
+        <label>Transfer Amount</label>
+        <input type="number"
+               name="amount"
+               step="0.01"
+               min="0.01"
+               placeholder="Enter amount"
+               required>
+
+        <!-- Remarks -->
+        <label>Remarks</label>
+        <textarea name="remarks"
+                  placeholder="Enter remarks (optional)"></textarea>
+
+        <button type="submit" class="button">
+            Transfer Money
+        </button>
+
+    </form>
+
+    <a href="/accounts" class="back">
+        ← Back to My Accounts
+    </a>
+
+</div>
+
+</body>
+</html>

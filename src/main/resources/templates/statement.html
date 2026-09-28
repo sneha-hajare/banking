@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Account Statement</title>
+</head>
+
+<body>
+
+<h1>Account Statement</h1>
+
+<hr>
+
+<h2>Account Details</h2>
+
+<p>
+    Account Number:
+    <strong th:text="${account.accountNumber}">
+        Account Number
+    </strong>
+</p>
+
+<p>
+    Account Type:
+    <strong th:text="${account.accountType}">
+        Account Type
+    </strong>
+</p>
+
+<p>
+    Current Balance:
+    ₹<strong th:text="${account.balance}">
+    0.00
+</strong>
+</p>
+
+<p>
+    Status:
+    <strong th:text="${account.status}">
+        ACTIVE
+    </strong>
+</p>
+
+<hr>
+
+<h2>Transaction History</h2>
+
+<table border="1" cellpadding="10">
+
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Transaction Type</th>
+        <th>Amount</th>
+        <th>Balance After</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    <tr th:each="transaction : ${transactions}">
+
+        <td th:text="${transaction.id}">
+            1
+        </td>
+
+        <td th:text="${transaction.transactionDate}">
+            Date
+        </td>
+
+        <td th:text="${transaction.transactionType}">
+            DEPOSIT
+        </td>
+
+        <td>
+            ₹<span th:text="${transaction.amount}">
+                0.00
+            </span>
+        </td>
+
+        <td>
+            ₹<span th:text="${transaction.balanceAfter}">
+                0.00
+            </span>
+        </td>
+
+        <td th:text="${transaction.description}">
+            Description
+        </td>
+
+    </tr>
+
+    <tr th:if="${#lists.isEmpty(transactions)}">
+
+        <td colspan="6">
+            No transactions found.
+        </td>
+
+    </tr>
+
+    </tbody>
+
+</table>
+
+<hr>
+<p>
+    <a th:href="@{/statement/download(accountId=${account.id})}">
+        <button type="button">
+            Download Statement PDF
+        </button>
+    </a>
+</p>
+
+<p>
+    <a th:href="@{/dashboard}">
+        Back to Dashboard
+    </a>
+</p>
+
+<p>
+    <a th:href="@{/accounts}">
+        Back to Accounts
+    </a>
+</p>
+
+<form action="/logout" method="post">
+
+    <button type="submit">
+        Logout
+    </button>
+
+</form>
+
+</body>
+</html>

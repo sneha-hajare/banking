@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Apply for Loan</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 450px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            background: #0056b3;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .error {
+            background: #ffe6e6;
+            color: #cc0000;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Apply for Loan</h2>
+
+    <div th:if="${error}" class="error" th:text="${error}">
+        Loan application failed
+    </div>
+
+    <form th:action="@{/loans/apply}" method="post">
+
+        <!-- Account ID -->
+        <input type="hidden"
+               name="accountId"
+               th:value="${account.id}">
+
+        <label>Account Number</label>
+        <input type="text"
+               th:value="${account.accountNumber}"
+               readonly>
+
+        <label>Loan Type</label>
+        <select name="loanType" required>
+            <option value="">Select Loan Type</option>
+            <option value="PERSONAL">Personal Loan</option>
+            <option value="HOME">Home Loan</option>
+            <option value="EDUCATION">Education Loan</option>
+            <option value="VEHICLE">Vehicle Loan</option>
+        </select>
+
+        <label>Loan Amount</label>
+        <input type="number"
+               name="amount"
+               step="0.01"
+               min="1"
+               placeholder="Enter loan amount"
+               required>
+
+        <label>Interest Rate (%)</label>
+        <input type="number"
+               name="interestRate"
+               step="0.01"
+               min="0"
+               value="8.50"
+               required>
+
+        <label>Tenure (Months)</label>
+        <input type="number"
+               name="tenure"
+               min="1"
+               placeholder="Enter tenure in months"
+               required>
+
+        <button type="submit" class="button">
+            Apply for Loan
+        </button>
+
+    </form>
+
+    <a th:href="@{/accounts}" class="back">
+        ← Back to My Accounts
+    </a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Staff Dashboard</title>
+</head>
+
+<body>
+
+<h1>Staff Dashboard</h1>
+
+<p>Welcome, Staff!</p>
+
+<hr>
+
+<h2>Loan Management</h2>
+
+<a href="/loans/pending">View Pending Loans</a>
+
+<br><br>
+
+<a href="/accounts">View Accounts</a>
+
+<br><br>
+
+<form action="/logout" method="post">
+    <button type="submit">Logout</button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Customer Dashboard</title>
+
+</head>
+
+<body>
+
+<h1>Customer Dashboard</h1>
+
+<p>Welcome to BankCore!</p>
+
+<hr>
+
+<!-- ========================= -->
+<!-- ACCOUNT SUMMARY -->
+<!-- ========================= -->
+
+<h2>Account Summary</h2>
+
+<p>
+    Total Accounts:
+    <strong th:text="${totalAccounts}">0</strong>
+</p>
+
+<p>
+    Total Balance:
+    ₹<strong th:text="${totalBalance}">0.00</strong>
+</p>
+
+<hr>
+
+<!-- ========================= -->
+<!-- MY ACCOUNTS -->
+<!-- ========================= -->
+
+<h2>My Accounts</h2>
+
+<table border="1" cellpadding="10">
+
+    <thead>
+
+    <tr>
+        <th>Account Number</th>
+        <th>Account Type</th>
+        <th>Balance</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    </thead>
+
+    <tbody>
+
+    <tr th:each="account : ${accounts}">
+
+        <td th:text="${account.accountNumber}">
+            Account Number
+        </td>
+
+        <td th:text="${account.accountType}">
+            Account Type
+        </td>
+
+        <td>
+            ₹<span th:text="${account.balance}">0.00</span>
+        </td>
+
+        <td th:text="${account.status}">
+            ACTIVE
+        </td>
+
+        <td>
+
+            <a th:href="@{/transactions(accountId=${account.id})}">
+                Transactions
+            </a>
+
+
+            |
+            <a th:href="@{/statement(accountId=${account.id})}">
+                Statement
+            </a>
+
+            <a th:href="@{/loans(accountId=${account.id})}">
+                My Loans
+            </a>
+
+        </td>
+
+    </tr>
+
+    <tr th:if="${#lists.isEmpty(accounts)}">
+
+        <td colspan="5">
+            No accounts found.
+        </td>
+
+    </tr>
+
+    </tbody>
+
+</table>
+
+<hr>
+
+<!-- ========================= -->
+<!-- RECENT TRANSACTIONS -->
+<!-- ========================= -->
+
+<h2>Recent Transactions</h2>
+
+<table border="1" cellpadding="10">
+
+    <thead>
+
+    <tr>
+        <th>Account Number</th>
+        <th>Transaction Type</th>
+        <th>Amount</th>
+        <th>Balance After</th>
+        <th>Description</th>
+        <th>Date</th>
+    </tr>
+
+    </thead>
+
+    <tbody>
+
+    <tr th:each="transaction : ${recentTransactions}">
+
+        <td th:text="${transaction.account.accountNumber}">
+            Account Number
+        </td>
+
+        <td th:text="${transaction.transactionType}">
+            Transaction Type
+        </td>
+
+        <td>
+            ₹<span th:text="${transaction.amount}">
+                0.00
+            </span>
+        </td>
+
+        <td>
+            ₹<span th:text="${transaction.balanceAfter}">
+                0.00
+            </span>
+        </td>
+
+        <td th:text="${transaction.description}">
+            Description
+        </td>
+
+        <td th:text="${transaction.transactionDate}">
+            Date
+        </td>
+
+    </tr>
+
+    <tr th:if="${#lists.isEmpty(recentTransactions)}">
+
+        <td colspan="6">
+            No transactions found.
+        </td>
+
+    </tr>
+
+    </tbody>
+
+</table>
+
+<hr>
+
+<!-- ========================= -->
+<!-- QUICK ACTIONS -->
+<!-- ========================= -->
+
+<h2>Quick Actions</h2>
+
+<p>
+    <a href="/accounts">
+        Manage Accounts
+    </a>
+</p>
+
+<p>
+    <a href="/accounts/create">
+        Create New Account
+    </a>
+</p>
+
+<hr>
+
+<!-- ========================= -->
+<!-- LOGOUT -->
+<!-- ========================= -->
+
+<form action="/logout" method="post">
+
+    <button type="submit">
+        Logout
+    </button>
+
+</form>
+
+</body>
+
+</html>

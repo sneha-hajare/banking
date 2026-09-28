@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BankCore - My Accounts</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef2f7;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: #1565c0;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .create-btn {
+            background: #1565c0;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .account-card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.10);
+        }
+
+        .account-card h2 {
+            margin-top: 0;
+            color: #1565c0;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .detail {
+            background: #f5f7fa;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .label {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .value {
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .actions {
+            margin-top: 20px;
+        }
+
+        .transaction-btn {
+            display: inline-block;
+            background: #2e7d32;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .transaction-btn:hover {
+            background: #1b5e20;
+        }
+
+        .empty {
+            background: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.10);
+        }
+
+        .empty a {
+            display: inline-block;
+            margin-top: 15px;
+            background: #1565c0;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+
+    <h2>🏦 BankCore</h2>
+
+    <a href="/dashboard">
+        Dashboard
+    </a>
+
+</div>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>My Accounts</h1>
+
+        <a href="/accounts/create" class="create-btn">
+            + Create Account
+        </a>
+
+    </div>
+
+    <!-- When accounts exist -->
+    <div th:if="${!accounts.isEmpty()}">
+
+        <div class="account-card"
+             th:each="account : ${accounts}">
+
+            <h2 th:text="${account.accountType + ' Account'}">
+                Savings Account
+            </h2>
+
+            <div class="details">
+
+                <div class="detail">
+                    <div class="label">Account Number</div>
+                    <div class="value"
+                         th:text="${account.accountNumber}">
+                        100000000000
+                    </div>
+                </div>
+
+                <div class="detail">
+                    <div class="label">Account Type</div>
+                    <div class="value"
+                         th:text="${account.accountType}">
+                        SAVINGS
+                    </div>
+                </div>
+
+                <div class="detail">
+                    <div class="label">Balance</div>
+                    <div class="value">
+                        ₹ <span th:text="${account.balance}">0.00</span>
+                    </div>
+                </div>
+
+                <div class="detail">
+                    <div class="label">Status</div>
+                    <div class="value"
+                         th:text="${account.status}">
+                        ACTIVE
+                    </div>
+                </div>
+
+                <div class="detail">
+                    <div class="label">Created On</div>
+                    <div class="value"
+                         th:text="${#temporals.format(account.createdAt, 'dd-MM-yyyy HH:mm')}">
+                        22-09-2026
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Transaction button -->
+            <div class="actions">
+
+                <a th:href="@{/transactions(accountId=${account.id})}"
+                   class="transaction-btn">
+                    View Transactions
+                </a>
+                <a th:href="@{/transfers/create(accountId=${account.id})}"
+                   class="transaction-btn">
+                    Transfer Money
+                </a>
+                <a th:href="@{/loans(accountId=${account.id})}"
+                   class="transaction-btn">
+                    My Loans
+                </a>
+
+                <a th:href="@{/loans/apply(accountId=${account.id})}"
+                   class="transaction-btn">
+                    Apply for Loan
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- When no accounts exist -->
+    <div class="empty"
+         th:if="${accounts.isEmpty()}">
+
+        <h2>No Bank Account Found</h2>
+
+        <p>
+            You don't have a bank account yet.
+            Create your first account to get started.
+        </p>
+
+        <a href="/accounts/create">
+            Create Your First Account
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

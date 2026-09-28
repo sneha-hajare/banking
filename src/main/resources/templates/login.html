@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BankCore - Login</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef2f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-box {
+            width: 360px;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 11px;
+            margin-top: 6px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 6px;
+            background: #1565c0;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .error {
+            background: #ffe0e0;
+            color: #c62828;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .success {
+            background: #e0f5e9;
+            color: #1b7f43;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .register {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        a {
+            color: #1565c0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-box">
+
+    <h1>🏦 BankCore</h1>
+
+    <p class="subtitle">
+        Banking Management System
+    </p>
+
+    <div class="error" th:if="${param.error}">
+        Invalid email or password
+    </div>
+
+    <div class="success" th:if="${param.logout}">
+        You have been logged out successfully.
+    </div>
+
+    <div class="success" th:if="${param.registered}">
+        Registration successful. Please login.
+    </div>
+
+    <form th:action="@{/login}" method="post">
+
+        <label>Email</label>
+
+        <input type="email"
+               name="username"
+               placeholder="Enter your email"
+               required>
+
+        <label>Password</label>
+
+        <input type="password"
+               name="password"
+               placeholder="Enter your password"
+               required>
+
+        <button type="submit">
+            Sign In
+        </button>
+
+    </form>
+
+    <div class="register">
+        New customer?
+        <a href="/register">Create an account</a>
+    </div>
+
+</div>
+
+</body>
+</html>

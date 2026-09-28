@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BankCore - Transactions</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef2f7;
+        }
+
+        .navbar {
+            background: #1565c0;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.10);
+        }
+
+        .header h1 {
+            margin-top: 0;
+        }
+
+        .balance {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1565c0;
+        }
+
+        .actions {
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 16px;
+            margin-right: 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            background: #1565c0;
+        }
+
+        .withdraw {
+            background: #c62828;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.10);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #1565c0;
+            color: white;
+        }
+
+        .deposit {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .withdrawal {
+            color: #c62828;
+            font-weight: bold;
+        }
+
+        .empty {
+            background: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+
+    <h2>🏦 BankCore</h2>
+
+    <a href="/dashboard">
+        Dashboard
+    </a>
+
+</div>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>Transaction History</h1>
+
+        <p>
+            Account Number:
+            <strong th:text="${account.accountNumber}">
+                100000000000
+            </strong>
+        </p>
+
+        <p>
+            Current Balance
+        </p>
+
+        <div class="balance">
+            ₹ <span th:text="${account.balance}">0.00</span>
+        </div>
+
+        <div class="actions">
+
+            <a th:href="@{/transactions/deposit(accountId=${account.id})}"
+               class="btn">
+                + Deposit
+            </a>
+
+            <a th:href="@{/transactions/withdraw(accountId=${account.id})}"
+               class="btn withdraw">
+                − Withdraw
+            </a>
+
+            <a href="/accounts"
+               class="btn">
+                My Accounts
+            </a>
+
+        </div>
+
+    </div>
+
+    <div th:if="${!transactions.isEmpty()}">
+
+        <table>
+
+            <thead>
+
+            <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Balance After</th>
+                <th>Description</th>
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            <tr th:each="transaction : ${transactions}">
+
+                <td th:text="${#temporals.format(transaction.transactionDate, 'dd-MM-yyyy HH:mm')}">
+                    22-09-2026
+                </td>
+
+                <td>
+
+                    <span th:if="${transaction.transactionType == 'DEPOSIT'}"
+                          class="deposit">
+                        DEPOSIT
+                    </span>
+
+                    <span th:if="${transaction.transactionType == 'WITHDRAWAL'}"
+                          class="withdrawal">
+                        WITHDRAWAL
+                    </span>
+
+                </td>
+
+                <td>
+                    ₹ <span th:text="${transaction.amount}">
+                        0.00
+                    </span>
+                </td>
+
+                <td>
+                    ₹ <span th:text="${transaction.balanceAfter}">
+                        0.00
+                    </span>
+                </td>
+
+                <td th:text="${transaction.description}">
+                    Cash deposit
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="empty"
+         th:if="${transactions.isEmpty()}">
+
+        <h2>No Transactions Yet</h2>
+
+        <p>
+            Your deposit and withdrawal transactions will appear here.
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>
